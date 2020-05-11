@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   useParams,
   Link,
@@ -15,41 +15,43 @@ const Job = () => {
   const [jobParent, setJobParent] = useState("");
   const [skills, setSkills] = useState("");
 
-  let { jobID } = useParams("") || window.location.href.split("/")[4];
+  let { jobID } = useParams("");
 
-  // get all information I need to show on job page
-  fetch(`https://api.dataatwork.org/v1/jobs/${jobID}`)
-    .then((response) => response.json())
-    .then((response) => {
-      let { title, parent_uuid } = response;
-      setJobTitle(title);
+  useEffect(() => {
+    // get all information I need to show on job page
+    fetch(`https://api.dataatwork.org/v1/jobs/${jobID}`)
+      .then((response) => response.json())
+      .then((response) => {
+        let { title, parent_uuid } = response;
+        setJobTitle(title);
 
-      // get parent category name and description
-      fetch(`https://api.dataatwork.org/v1/jobs/${parent_uuid}`)
-        .then((response) => response.json())
-        .then((response) => {
-          let { title, description } = response;
-          setJobParent({ title, description });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        // get parent category name and description
+        fetch(`https://api.dataatwork.org/v1/jobs/${parent_uuid}`)
+          .then((response) => response.json())
+          .then((response) => {
+            let { title, description } = response;
+            setJobParent({ title, description });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
 
-      // get related skills
-      fetch(`https://api.dataatwork.org/v1/jobs/${jobID}/related_skills`)
-        .then((response) => response.json())
-        .then((response) => {
-          let skills = response.skills;
-          setSkills(skills);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    })
-    .catch((error) => {
-      console.log(error);
-      setJobTitle("Unable to fetch job");
-    });
+        // get related skills
+        fetch(`https://api.dataatwork.org/v1/jobs/${jobID}/related_skills`)
+          .then((response) => response.json())
+          .then((response) => {
+            let skills = response.skills;
+            setSkills(skills);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+        setJobTitle("Unable to fetch job");
+      });
+  }, [jobTitle]);
 
   return (
     <>
