@@ -1,16 +1,18 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Link
-} from "react-router-dom";
+import { Link } from "react-router-dom";
+import Books from "../Constants/Books";
 
+const Navbar = () => {
+  const shortid = require("shortid");
+  return (
+    <div>
+      {Books.map((book) => (
+        <Link key={shortid.generate()} to={`/book/${book.slug}`}>
+          {book.title}
+        </Link>
+      ))}
+    </div>
+  );
+};
 
-const Navbar = () => (<div>
-  <Link to="/">Home</Link> 
-  <Link to="/About">About</Link> 
-  <Link to="/Documentation">Documentation</Link>
-</div>);
-
-export default Navbar
+export default Navbar;
