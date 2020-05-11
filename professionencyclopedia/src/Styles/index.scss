@@ -33,6 +33,36 @@ a {
   text-decoration: none;
 }
 
+a.internal,
+a.internal:visited {
+  text-decoration: none;
+  position: relative;
+  color: white;
+
+  &:after {
+    content: "";
+    height: 0.1em;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    background: white;
+    transition: 0.2s;
+  }
+  &:hover:after {
+    width: 100%;
+  }
+
+  &.block {
+    display: block;
+    padding: 0.5em;
+
+    &:hover {
+      background: white;
+    }
+  }
+}
+
 nav {
   margin: 2rem 0;
   display: flex;
@@ -56,6 +86,35 @@ nav {
       @include btn-input-border();
     }
   }
+
+  .autocomplete {
+    position: relative;
+    display: inline-block;
+    width: 15rem;
+  }
+
+  .suggestionList {
+    position: absolute;
+    background-color: $background_gray;
+  }
+
+  li.autocomplete-items {
+    list-style: none;
+    padding: 1rem;
+    border: 0.05rem solid white;
+    border-collapse: collapse;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+
+    &:hover {
+      @include white-on-red();
+      color: $background_gray;
+      cursor: pointer;
+      font-weight: bolder;
+    }
+  }
 }
 .pageTitle {
   color: $primary_red;
@@ -72,33 +131,5 @@ nav {
   &:hover {
     color: $background_gray;
     cursor: pointer;
-  }
-}
-
-// autocomplete sandbox
-.autocomplete {
-  position: relative;
-  display: inline-block;
-  width: 15rem;
-}
-.suggestionList {
-  position: absolute;
-  background-color: $background_gray;
-}
-li.autocomplete-items {
-  list-style: none;
-  padding: 1rem;
-  border: 0.05rem solid white;
-  border-collapse: collapse;
-  z-index: 99;
-  top: 100%;
-  left: 0;
-  right: 0;
-
-  &:hover {
-    @include white-on-red();
-    color: $background_gray;
-    cursor: pointer;
-    font-weight: bolder;
   }
 }
