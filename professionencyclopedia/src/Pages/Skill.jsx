@@ -28,7 +28,7 @@ const Skill = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [skillName]);
+  }, [skillID]);
 
   return (
     <>

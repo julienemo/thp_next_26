@@ -28,6 +28,13 @@ code {
     monospace;
 }
 
+.pageTitle {
+  color: $primary_red;
+  margin: 1rem 0;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
 a {
   color: white;
   text-decoration: none;
@@ -46,20 +53,11 @@ a.internal:visited {
     bottom: 0;
     left: 0;
     width: 0%;
-    background: white;
+    background: $primary_red;
     transition: 0.2s;
   }
   &:hover:after {
     width: 100%;
-  }
-
-  &.block {
-    display: block;
-    padding: 0.5em;
-
-    &:hover {
-      background: white;
-    }
   }
 }
 
@@ -68,10 +66,10 @@ nav {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  z-index: 1000000000000;
 
   #navSearch {
     margin: 1rem 0;
+    z-index: 1000;
 
     input {
       outline: none;
@@ -114,22 +112,5 @@ nav {
       cursor: pointer;
       font-weight: bolder;
     }
-  }
-}
-.pageTitle {
-  color: $primary_red;
-  margin: 1rem 0;
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-.btn {
-  padding: 0.5rem 1rem;
-  @include btn-input-border();
-  @include white-on-red();
-
-  &:hover {
-    color: $background_gray;
-    cursor: pointer;
   }
 }

@@ -40,7 +40,6 @@ const Form = ({ addToList }) => {
           setSuggestions(<>{list}</>);
         })
         .catch((error) => {
-          console.log(error);
           setSuggestions(
             <>
               <Suggestion

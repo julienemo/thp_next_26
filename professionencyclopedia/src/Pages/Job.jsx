@@ -3,8 +3,9 @@ import { useParams, Link } from "react-router-dom";
 
 import { ShortID, APIURL } from "../Constants/index";
 
-const Job = () => {
-  const [jobTitle, setJobTitle] = useState("");
+const Job = (props) => {
+  console.log(props)
+  const [jobTitle, setJobTitle] = useState(props.location.title);
   const [jobParent, setJobParent] = useState("");
   const [skills, setSkills] = useState("");
 
@@ -15,19 +16,23 @@ const Job = () => {
     fetch(`${APIURL}/jobs/${jobID}`)
       .then((response) => response.json())
       .then((response) => {
-        let { title, parent_uuid } = response;
-        setJobTitle(title);
+        let { parent_uuid } = response;
 
-        // get parent category name and description
-        fetch(`${APIURL}/jobs/${parent_uuid}`)
-          .then((response) => response.json())
-          .then((response) => {
-            let { title, description } = response;
-            setJobParent({ title, description });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        if (parent_uuid) {
+          // get parent category name and description
+          fetch(`${APIURL}/jobs/${parent_uuid}`)
+            .then((response) => response.json())
+            .then((response) => {
+              let { title, description } = response;
+              setJobParent({ title, description });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } else {
+          setJobParent({ title: null, description: response.description });
+        }
+
 
         // get related skills
         fetch(`${APIURL}/jobs/${jobID}/related_skills`)
@@ -37,7 +42,6 @@ const Job = () => {
             setSkills(skills);
           })
           .catch((error) => {
-            console.log(error);
             setSkills([
               { skill_name: "no related skill found", skill_uuid: null },
             ]);
@@ -52,9 +56,10 @@ const Job = () => {
   return (
     <>
       <h1>{jobTitle && jobTitle}</h1>
-      <p>
-        Category: <strong>{jobParent && jobParent.title}</strong>
-      </p>
+      {jobParent.title && (<p>
+        Category: <strong>{jobParent.title}</strong>
+      </p>)}
+      
       <p>Description: {jobParent && jobParent.description}</p>
       <div>
         <p>
@@ -63,11 +68,11 @@ const Job = () => {
         <div>
           {skills
             ? skills.map((skill) => (
-                <div key={ShortID.generate()}>
+              <div key={ShortID.generate()}>
                   <Link className="internal" to={`/skills/${skill.skill_uuid}`}>
                     {skill.skill_name}
                   </Link>
-                </div>
+              </div>
               ))
             : "No related skilled found"}
         </div>

@@ -13,7 +13,6 @@ const App = () => {
   const [recentQueries, setRecentQueries] = useState(lastQueries);
 
   const updateQueryHistory = (title, id) => {
-    console.log(recentQueries)
     if (recentQueries.length >= 5) {
       let choppedList = recentQueries.slice(0,4)
       setRecentQueries([{ job_title: title, job_uuid: id }, ...choppedList]);
@@ -22,11 +21,6 @@ const App = () => {
     }
 
   };
-
-  useEffect(() => {
-    console.log("list updated");
-    console.log(recentQueries);
-  }, [recentQueries]);
 
   useEffect(() => {
     return () => {
@@ -50,8 +44,7 @@ const App = () => {
             <Home {...{ recentQueries }} />
           </Route>
 
-          <Route path={`/jobs/:jobID`}>
-            <Job />
+          <Route path={`/jobs/:jobID`} component={Job}>
           </Route>
           <Route path={`/skills/:skillID`}>
             <Skill />

@@ -8,8 +8,18 @@
 
 1. having `div` inside `Switch` triggers "React does not recognize the `computedMatch` prop on a DOM element" warning.
 
-2. I...don't seem to know how to push conditional rendering in the "return" function, I always need to put the condition into a var then render the var -\_-!!
+2. `fetch` in a component will be called every time there is an update, do remember to put it into a `useEffect` of something that does change often
+   
+3. There should be a `key` on the mapped elements, meaning, if the mapping returns `<><Something/></>`, there is a problem. To put a `key` props on a fragment, use `<React.Fragment key={something}><Something/></React.Fragment>`
 
-3. How not to change the width of div when the content is bolder in hover ? (ex, encyclopedia of trades project suggestion list)
+4. There probably no way to eliminate 404 errors in console.
+   
+5. Putting the input form in highest z-index seems to be a good way to make sure that suggestion list is always on top
 
-4. My job page only works when freshly landed, if I go backwards it is empty ><
+6. To pass props with  `Link`, see [this](https://medium.com/@bopaiahmd.mca/how-to-pass-props-using-link-and-navlink-in-react-router-v4-75dc1d9507b4)
+
+* * *
+##### Difficulties
+1. How not to change the width of div when the content is bolder in hover ? (ex, encyclopedia of trades project suggestion list)
+   
+2. 
