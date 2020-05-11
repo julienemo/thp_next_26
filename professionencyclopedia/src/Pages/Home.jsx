@@ -1,5 +1,5 @@
 import React from "react";
 
-const Home = () => (<h1>Home</h1>);
+const Home = () => <h2>Recently consulted pages</h2>;
 
 export default Home;

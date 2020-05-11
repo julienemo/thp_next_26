@@ -1,0 +1,104 @@
+$primary_red: #fc0404;
+$background_gray: #04060c;
+
+@mixin btn-input-border() {
+  border: 0;
+  border-radius: 0.3rem;
+}
+
+@mixin white-on-red() {
+  background-color: $primary_red;
+  color: white;
+}
+
+body {
+  margin: 0 3rem;
+  padding: 0;
+  background-color: $background_gray;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+nav {
+  margin: 2rem 0;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+
+  #navSearch {
+    margin: 1rem 0;
+
+    input {
+      outline: none;
+    }
+    &:hover,
+    :focus {
+      outline: none;
+    }
+
+    #searchInput {
+      padding: 0.5rem;
+      margin-right: 0.5rem;
+      @include btn-input-border();
+    }
+  }
+}
+.pageTitle {
+  color: $primary_red;
+  margin: 1rem 0;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  @include btn-input-border();
+  @include white-on-red();
+
+  &:hover {
+    color: $background_gray;
+    cursor: pointer;
+  }
+}
+
+// autocomplete sandbox
+.autocomplete {
+  position: relative;
+  display: inline-block;
+  width: 15rem;
+}
+.suggestionList {
+  position: absolute;
+  background-color: $background_gray;
+}
+li.autocomplete-items {
+  list-style: none;
+  padding: 1rem;
+  border: 0.05rem solid white;
+  border-collapse: collapse;
+  z-index: 99;
+  top: 100%;
+  left: 0;
+  right: 0;
+
+  &:hover {
+    @include white-on-red();
+    color: $background_gray;
+    cursor: pointer;
+    font-weight: bolder;
+  }
+}
