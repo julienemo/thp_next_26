@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { BrowerRouter as Router, Switch, Route, Link } from "react-router-dom";
-
 import Suggestion from "./Suggestion";
-import Job from "../Pages/Job";
 
-const Form = () => {
+const Form = ({ addToList }) => {
   const InputCleaningRegex = /[^a-zA-Z\s]/gi;
   const ShortID = require("shortid");
   const [currentKeyWord, setCurrentKeyWord] = useState("");
@@ -32,7 +29,13 @@ const Form = () => {
         .then((response) => {
           let results = response.slice(0, 5);
           let list = results.map((result) => (
-            <Suggestion key={ShortID.generate()} {...result} />
+            <Suggestion
+              key={ShortID.generate()}
+              {...result}
+              onclick={() => {
+                addToList(result.suggestion, result.uuid);
+              }}
+            />
           ));
           setSuggestions(<>{list}</>);
         })
@@ -50,11 +53,14 @@ const Form = () => {
           );
         });
     }
-  }, [currentKeyWord]);
+  }, [ShortID, addToList, currentKeyWord]);
 
   return (
     <form id="navSearch">
-      <div className="autocomplete">
+      <div className="autocomplete"
+        onClick={() => {
+        setCurrentKeyWord("");
+      }}>
         <input
           id="searchInput"
           type="text"
@@ -63,7 +69,6 @@ const Form = () => {
         />
         <div className="suggestionList">{suggestions}</div>
       </div>
-      <input type="submit" className="btn" value="Search" />
     </form>
   );
 };

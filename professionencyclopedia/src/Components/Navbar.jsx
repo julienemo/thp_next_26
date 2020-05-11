@@ -3,14 +3,13 @@ import { Link } from "react-router-dom";
 
 import Form from "./Form";
 
-const Navbar = () => {
-  const five = "5"; // this is a placeholder
+const Navbar = ({ addToList }) => {
   return (
     <nav>
       <Link className="pageTitle" to="/">
         Your Encyclopedia of Trades
       </Link>
-      <Form />
+      <Form addToList={addToList} />
     </nav>
   );
 };

@@ -68,6 +68,7 @@ nav {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
+  z-index: 1000000000000;
 
   #navSearch {
     margin: 1rem 0;
@@ -103,7 +104,6 @@ nav {
     padding: 1rem;
     border: 0.05rem solid white;
     border-collapse: collapse;
-    z-index: 99;
     top: 100%;
     left: 0;
     right: 0;

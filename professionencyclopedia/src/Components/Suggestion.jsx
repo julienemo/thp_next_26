@@ -1,11 +1,17 @@
 import React from "react";
-import { BrowerRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const Suggestion = ({ suggestion, uuid }) => {
-  const two = "2"; // placeholder
+const Suggestion = ({ suggestion, uuid, onclick }) => {
   return (
     <Link to={`/jobs/${uuid}`}>
-      <li className="autocomplete-items"> {suggestion}</li>
+      <li
+        className="autocomplete-items"
+        onClick={() => {
+          onclick(uuid, suggestion);
+        }}
+      >
+        {suggestion}
+      </li>
     </Link>
   );
 };

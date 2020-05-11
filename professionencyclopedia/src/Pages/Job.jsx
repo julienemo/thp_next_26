@@ -4,7 +4,6 @@ import { useParams, Link } from "react-router-dom";
 import { ShortID, APIURL } from "../Constants/index";
 
 const Job = () => {
-  console.log("page"); // this gets printed again and again -_-!
   const [jobTitle, setJobTitle] = useState("");
   const [jobParent, setJobParent] = useState("");
   const [skills, setSkills] = useState("");
@@ -35,7 +34,6 @@ const Job = () => {
           .then((response) => response.json())
           .then((response) => {
             let skills = response.skills;
-            console.log(skills);
             setSkills(skills);
           })
           .catch((error) => {

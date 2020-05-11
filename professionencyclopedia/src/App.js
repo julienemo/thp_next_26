@@ -1,20 +1,55 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import Home from "./Pages/Home";
 import Navbar from "./Components/Navbar";
+import Home from "./Pages/Home";
 import Job from "./Pages/Job";
 import Skill from "./Pages/Skill";
 
 const App = () => {
-  const six = "6"; // this is a place holder;
-  const [currentJob, setCurrentJob] = useState(null);
+  const lastQueries = JSON.parse(
+    window.localStorage.getItem("EncyclopediaOfProfessions")
+  ).lastQueries;
+  const [recentQueries, setRecentQueries] = useState(lastQueries);
+
+  const updateQueryHistory = (title, id) => {
+    console.log(recentQueries)
+    if (recentQueries.length >= 5) {
+      let choppedList = recentQueries.slice(0,4)
+      setRecentQueries([{ job_title: title, job_uuid: id }, ...choppedList]);
+    } else { 
+      setRecentQueries([{ job_title: title, job_uuid: id }, ...recentQueries]);
+    }
+
+  };
+
+  useEffect(() => {
+    console.log("list updated");
+    console.log(recentQueries);
+  }, [recentQueries]);
+
+  useEffect(() => {
+    return () => {
+      window.localStorage.setItem(
+        "EncyclopediaOfProfessions",
+        JSON.stringify({ preferences: {}, lastQueries: recentQueries.slice(0,5) })
+      );
+    };
+  }, [recentQueries]);
 
   return (
     <Router>
       <div>
-        <Navbar />
+        <Navbar
+          addToList={(title, id) => {
+            updateQueryHistory(title, id);
+          }}
+        />
         <Switch>
+          <Route exact path="/">
+            <Home {...{ recentQueries }} />
+          </Route>
+
           <Route path={`/jobs/:jobID`}>
             <Job />
           </Route>
