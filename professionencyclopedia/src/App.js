@@ -18,7 +18,7 @@ const App = () => {
           <Route path={`/jobs/:jobID`}>
             <Job />
           </Route>
-          <Route path={`/skills/:jobID`}>
+          <Route path={`/skills/:skillID`}>
             <Skill />
           </Route>
         </Switch>

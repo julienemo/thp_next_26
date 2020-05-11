@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
-import {
-  useParams,
-  Link,
-  Switch,
-  Route,
-  BrowserRouter as Router,
-} from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
-import Skill from "./Skill";
+import { ShortID, APIURL } from "../Constants/index";
 
 const Job = () => {
   console.log("page"); // this gets printed again and again -_-!
@@ -19,14 +13,14 @@ const Job = () => {
 
   useEffect(() => {
     // get all information I need to show on job page
-    fetch(`https://api.dataatwork.org/v1/jobs/${jobID}`)
+    fetch(`${APIURL}/jobs/${jobID}`)
       .then((response) => response.json())
       .then((response) => {
         let { title, parent_uuid } = response;
         setJobTitle(title);
 
         // get parent category name and description
-        fetch(`https://api.dataatwork.org/v1/jobs/${parent_uuid}`)
+        fetch(`${APIURL}/jobs/${parent_uuid}`)
           .then((response) => response.json())
           .then((response) => {
             let { title, description } = response;
@@ -37,21 +31,25 @@ const Job = () => {
           });
 
         // get related skills
-        fetch(`https://api.dataatwork.org/v1/jobs/${jobID}/related_skills`)
+        fetch(`${APIURL}/jobs/${jobID}/related_skills`)
           .then((response) => response.json())
           .then((response) => {
             let skills = response.skills;
+            console.log(skills);
             setSkills(skills);
           })
           .catch((error) => {
             console.log(error);
+            setSkills([
+              { skill_name: "no related skill found", skill_uuid: null },
+            ]);
           });
       })
       .catch((error) => {
         console.log(error);
         setJobTitle("Unable to fetch job");
       });
-  }, [jobTitle]);
+  }, [jobID]);
 
   return (
     <>
@@ -65,15 +63,15 @@ const Job = () => {
           <strong>Related skills:</strong>
         </p>
         <div>
-          {skills &&
-            skills.map((skill) => (
-              <>
-                <Link className="internal" to={`/skills/${skill.skill_uuid}`}>
-                  {skill.skill_name}
-                </Link>
-                <br />
-              </>
-            ))}
+          {skills
+            ? skills.map((skill) => (
+                <div key={ShortID.generate()}>
+                  <Link className="internal" to={`/skills/${skill.skill_uuid}`}>
+                    {skill.skill_name}
+                  </Link>
+                </div>
+              ))
+            : "No related skilled found"}
         </div>
       </div>
     </>
